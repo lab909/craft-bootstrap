@@ -19,3 +19,4 @@ output.log
 /.parcel-cache/
 
 /.cursor
+/config/license.key*

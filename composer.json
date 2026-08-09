@@ -1,49 +1,52 @@
 {
-    "require": {
-        "craftcms/ckeditor": "^5.6.1",
-        "craftcms/cms": "^5.10.12",
-        "nystudio107/craft-vite": "^5.0.2",
-        "vlucas/phpdotenv": "^5.4.0",
-    },
-    "require-dev": {
-        "craftcms/generator": "^2.0.0",
-        "yiisoft/yii2-shell": "^2.0.3"
-    },
-    "autoload": {
-        "psr-4": {
-          "modules\\": "modules/"
-        }
-    },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "plugins/custom-features"
-        },
-        {
-            "type": "composer",
-            "url": "https://composer.craftcms.com",
-            "canonical": false
-        }
-    ],
-    "config": {
-        "sort-packages": true,
-        "optimize-autoloader": true,
-        "platform": {
-            "php": "8.2"
-        },
-        "allow-plugins": {
-            "yiisoft/yii2-composer": true,
-            "craftcms/plugin-installer": true,
-            "treeware/plant": true
-        }
-    },
-    "scripts": {
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-install-cmd": [
-            "@php ./craft migrate/all",
-            "@php ./craft project-config/apply"
-        ]
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "craftcms/ckeditor": "^5.6.1",
+    "craftcms/cms": "^5.10.12",
+    "jos-digital/craft-custom-features": "dev-main",
+    "nystudio107/craft-vite": "^5.0.2",
+    "vlucas/phpdotenv": "^5.4.0"
+  },
+  "require-dev": {
+    "craftcms/generator": "^2.0.0",
+    "yiisoft/yii2-shell": "^2.0.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "modules\\": "modules/"
     }
+  },
+  "repositories": [
+    {
+      "type": "path",
+      "url": "plugins/custom-features"
+    },
+    {
+      "type": "composer",
+      "url": "https://composer.craftcms.com",
+      "canonical": false
+    }
+  ],
+  "config": {
+    "sort-packages": true,
+    "optimize-autoloader": true,
+    "platform": {
+      "php": "8.2"
+    },
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "craftcms/plugin-installer": true,
+      "treeware/plant": true
+    }
+  },
+  "scripts": {
+    "post-root-package-install": [
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ],
+    "post-install-cmd": [
+      "@php ./craft migrate/all",
+      "@php ./craft project-config/apply"
+    ]
+  }
 }
