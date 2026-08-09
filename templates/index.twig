@@ -1,21 +1,1233 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hello World!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppVault — Next-Gen Software & AI App Directory</title>
+    <meta name="description" content="Discover, explore, and upvote the finest modern software applications, AI tools, developer utilities, and productivity platforms.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        },
+                        darkbg: '#090D16',
+                        darkcard: '#111726',
+                        darkborder: '#1E293B',
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s infinite alternate',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%': { opacity: '0.4', filter: 'drop-shadow(0 0 15px rgba(99, 102, 241, 0.4))' },
+                            '100%': { opacity: '0.8', filter: 'drop-shadow(0 0 30px rgba(168, 85, 247, 0.6))' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom scrollbar and glassmorphism utilities */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090D16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+        .glass-panel {
+            background: rgba(17, 23, 38, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-panel-light {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #818CF8 0%, #C084FC 50%, #38BDF8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #4F46E5 0%, #9333EA 50%, #0284C7 100%);
+        }
+        .gradient-glow {
+            box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.4);
+        }
+    </style>
+
     {{ craft.vite.script("src/frontend/js/site.js", false) }}
 </head>
-<body>
-<img src="{{ lorempicsum.image(400, 600) }}" alt="">
+<body class="bg-darkbg text-slate-100 font-sans antialiased min-h-screen selection:bg-brand-500 selection:text-white transition-colors duration-300">
 
-<hr>
+    {# ==================== TWIG DATA GENERATION ON THE FLY ==================== #}
+    {% set categories = [
+        { id: 'all', name: 'All Apps', icon: 'fa-cubes', count: 24 },
+        { id: 'ai', name: 'AI & Machine Learning', icon: 'fa-robot', count: 7 },
+        { id: 'productivity', name: 'Productivity', icon: 'fa-bolt', count: 5 },
+        { id: 'design', name: 'Design & Creative', icon: 'fa-wand-magic-sparkles', count: 4 },
+        { id: 'developer', name: 'Developer Tools', icon: 'fa-code', count: 4 },
+        { id: 'analytics', name: 'Analytics & Data', icon: 'fa-chart-pie', count: 2 },
+        { id: 'security', name: 'Security & Privacy', icon: 'fa-shield-halved', count: 2 }
+    ] %}
 
-<p>{{ faker.text(200) }}</p>
+    {% set category_names = {
+        'ai': 'AI & Machine Learning',
+        'productivity': 'Productivity',
+        'design': 'Design & Creative',
+        'developer': 'Developer Tools',
+        'analytics': 'Analytics & Data',
+        'security': 'Security & Privacy'
+    } %}
 
-test2 asd2 yes no
+    {% set price_types = ['Free', 'Freemium', 'Paid', 'Open Source'] %}
+    {% set badges_pool = ['🔥 Hot', '✨ New', '⚡ Featured', '🏆 Staff Pick', ''] %}
+    {% set suffix_pool = ['AI', 'Studio', 'Flow', 'HQ', 'Lab', 'Pulse', 'Craft', 'Sync', 'OS', 'Grid', 'Desk', 'Vault'] %}
+
+    {# Pre-generate 24 dynamic apps using faker and lorempicsum #}
+    {% set apps = [] %}
+    {% for i in 1..24 %}
+        {% set cat_key = faker.randomElement(['ai', 'productivity', 'design', 'developer', 'analytics', 'security']) %}
+        {% set app_name = faker.company ~ ' ' ~ faker.randomElement(suffix_pool) %}
+        {% set app_item = {
+            'id': i,
+            'name': app_name,
+            'tagline': faker.catchPhrase,
+            'description': faker.text(140),
+            'long_description': faker.paragraphs(2, true),
+            'category_key': cat_key,
+            'category_name': attribute(category_names, cat_key),
+            'logo': lorempicsum.square(120, { seed: 'applogo-' ~ i }),
+            'screenshot': lorempicsum.image(720, 420, { seed: 'appshot-' ~ i }),
+            'rating': faker.randomFloat(1, 4, 5),
+            'reviews_count': faker.numberBetween(18, 540),
+            'upvotes': faker.numberBetween(140, 3850),
+            'pricing': faker.randomElement(price_types),
+            'badge': faker.randomElement(badges_pool),
+            'url': faker.url,
+            'maker_name': faker.name,
+            'maker_avatar': lorempicsum.square(80, { seed: 'maker-' ~ i }),
+            'maker_title': faker.jobTitle,
+            'features': [
+                faker.sentence(6),
+                faker.sentence(7),
+                faker.sentence(5),
+                faker.sentence(8)
+            ]
+        } %}
+        {% set apps = apps|merge([app_item]) %}
+    {% endfor %}
+
+    {# Spotlight Hero App #}
+    {% set spotlight_app = {
+        'name': faker.company ~ ' Studio Pro AI',
+        'tagline': 'Next-generation automated AI workspace for modern engineering teams',
+        'description': faker.text(180),
+        'long_description': faker.paragraphs(2, true),
+        'category': 'AI & Machine Learning',
+        'logo': lorempicsum.square(140, { seed: 'spotlight-logo-main' }),
+        'screenshot': lorempicsum.image(960, 520, { seed: 'spotlight-banner-main' }),
+        'rating': 4.9,
+        'reviews_count': 842,
+        'upvotes': 4920,
+        'pricing': 'Freemium',
+        'url': faker.url,
+        'maker_name': faker.name,
+        'maker_avatar': lorempicsum.square(90, { seed: 'spotlight-maker-avatar' }),
+        'maker_title': 'Founder & CEO',
+        'features': [
+            faker.sentence(7),
+            faker.sentence(8),
+            faker.sentence(6)
+        ]
+    } %}
+
+    {# Pre-generate 4 Collections #}
+    {% set collections = [
+        {
+            'id': 1,
+            'title': 'Best AI Coding Assistants in 2026',
+            'desc': 'Boost your development velocity with generative AI copilots and auto-refactoring tools.',
+            'count': '8 Apps',
+            'image': lorempicsum.image(500, 280, { seed: 'collection-1' })
+        },
+        {
+            'id': 2,
+            'title': 'Minimalist Workspace & Productivity Stack',
+            'desc': 'Curated distraction-free markdown editors, focus timers, and task managers.',
+            'count': '6 Apps',
+            'image': lorempicsum.image(500, 280, { seed: 'collection-2' })
+        },
+        {
+            'id': 3,
+            'title': 'Top Open Source UI Kits & Design Tokens',
+            'desc': 'Accelerate web design workflows with accessible component libraries and asset generators.',
+            'count': '12 Apps',
+            'image': lorempicsum.image(500, 280, { seed: 'collection-3' })
+        },
+        {
+            'id': 4,
+            'title': 'Privacy-First Analytics & Data Vaults',
+            'desc': 'Cookieless web analytics and end-to-end encrypted telemetry platforms.',
+            'count': '5 Apps',
+            'image': lorempicsum.image(500, 280, { seed: 'collection-4' })
+        }
+    ] %}
+
+    {# Pre-generate 3 Testimonials #}
+    {% set testimonials = [] %}
+    {% for i in 1..3 %}
+        {% set test_item = {
+            'name': faker.name,
+            'title': faker.jobTitle,
+            'company': faker.company,
+            'avatar': lorempicsum.square(100, { seed: 'testimonial-avatar-' ~ i }),
+            'quote': faker.text(140)
+        } %}
+        {% set testimonials = testimonials|merge([test_item]) %}
+    {% endfor %}
+
+    <!-- TOP ANNOUNCEMENT BANNER -->
+    <div class="bg-gradient-to-r from-brand-700 via-purple-700 to-indigo-800 text-white text-xs font-semibold py-2 px-4 text-center tracking-wide flex items-center justify-center gap-2">
+        <span class="bg-white/20 text-white px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase">Live Directory</span>
+        <span>✨ Over {{ faker.numberBetween(1800, 3500) }} modern software &amp; AI tools listed. {{ faker.numberBetween(35, 120) }} new tools added today!</span>
+        <a href="#explore-apps" class="underline underline-offset-2 hover:text-indigo-200 ml-1 font-bold">Explore Apps &rarr;</a>
+    </div>
+
+    <!-- MAIN NAVBAR -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-slate-800/80 transition-all duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center text-white text-xl font-black shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition-transform duration-200">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tight text-white flex items-center gap-1.5">
+                        App<span class="gradient-text">Vault</span>
+                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    </span>
+                    <span class="text-[11px] font-medium text-slate-400 block -mt-1 tracking-wider uppercase">Next-Gen App Directory</span>
+                </div>
+            </a>
+
+            <!-- Search Bar in Header -->
+            <div class="hidden md:flex flex-1 max-w-md mx-6 relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input 
+                    type="text" 
+                    id="headerSearchInput" 
+                    placeholder="Search {{ apps|length }} apps by name, tag, or category..." 
+                    class="w-full bg-slate-900/90 text-sm text-slate-200 placeholder-slate-400 pl-10 pr-12 py-2.5 rounded-xl border border-slate-700/70 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all"
+                    oninput="syncAndFilter(this.value)"
+                >
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded border border-slate-700 font-mono">⌘K</span>
+            </div>
+
+            <!-- Header Right Controls -->
+            <div class="flex items-center gap-3">
+                <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 flex items-center justify-center border border-slate-700/60 transition-colors" title="Toggle Theme">
+                    <i id="themeIcon" class="fa-solid fa-moon text-sm"></i>
+                </button>
+
+                <button onclick="openSavedAppsModal()" class="relative hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 text-sm font-medium border border-slate-700/60 transition-colors">
+                    <i class="fa-solid fa-bookmark text-amber-400"></i>
+                    <span>Saved</span>
+                    <span id="savedCountBadge" class="bg-brand-600 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full hidden">0</span>
+                </button>
+
+                <button onclick="openSubmitModal()" class="gradient-bg hover:opacity-95 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-lg shadow-brand-500/20 flex items-center gap-2 transition-all hover:shadow-brand-500/40 active:scale-95">
+                    <i class="fa-solid fa-plus text-xs"></i>
+                    <span>Submit App</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative overflow-hidden pt-12 pb-16 lg:pt-20 lg:pb-24">
+        <!-- Ambient background glows -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-brand-600/15 blur-[120px] rounded-full pointer-events-none"></div>
+        <div class="absolute top-1/3 right-10 w-[400px] h-[300px] bg-purple-600/10 blur-[100px] rounded-full pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/80 text-slate-300 text-xs font-medium mb-6 backdrop-blur-md">
+                <span class="flex h-2 w-2 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span>Curated Directory of Independent &amp; Enterprise Software</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.15]">
+                Discover the Next Generation of <span class="gradient-text">Apps &amp; AI Tools</span>
+            </h1>
+            
+            <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
+                Explore handpicked tools, upvote product launches, and find the perfect software stack to power your next project.
+            </p>
+
+            <!-- HERO SEARCH & FILTER BOX -->
+            <div class="mt-10 max-w-3xl mx-auto">
+                <div class="p-2 rounded-2xl glass-panel border border-slate-700/80 shadow-2xl shadow-slate-950/50 flex flex-col sm:flex-row items-center gap-2">
+                    
+                    <div class="relative flex-1 w-full">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-base"></i>
+                        <input 
+                            type="text" 
+                            id="heroSearchInput" 
+                            placeholder="Search apps by keyword, tag, or stack (e.g. AI, Figma, Code)..." 
+                            class="w-full bg-transparent text-white text-base placeholder-slate-400 pl-11 pr-4 py-3.5 rounded-xl focus:outline-none"
+                            oninput="syncAndFilter(this.value)"
+                        >
+                    </div>
+
+                    <div class="flex items-center gap-2 w-full sm:w-auto px-2">
+                        <select id="pricingFilter" onchange="filterApps()" class="bg-slate-800 text-slate-200 text-xs font-semibold px-3 py-3 rounded-xl border border-slate-700 focus:outline-none cursor-pointer">
+                            <option value="all">All Prices</option>
+                            <option value="Free">Free</option>
+                            <option value="Freemium">Freemium</option>
+                            <option value="Paid">Paid</option>
+                            <option value="Open Source">Open Source</option>
+                        </select>
+
+                        <button onclick="clearSearch()" class="px-4 py-3 bg-brand-600 hover:bg-brand-500 text-white font-semibold text-sm rounded-xl transition-colors whitespace-nowrap">
+                            Search
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tag Pills -->
+                <div class="flex flex-wrap items-center justify-center gap-2 mt-4 text-xs">
+                    <span class="text-slate-400 font-medium">Trending searches:</span>
+                    <button onclick="setSearchTag('AI')" class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-colors">#AI</button>
+                    <button onclick="setSearchTag('Productivity')" class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-colors">#Productivity</button>
+                    <button onclick="setSearchTag('Developer')" class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-colors">#Developer</button>
+                    <button onclick="setSearchTag('Design')" class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-colors">#Design</button>
+                    <button onclick="setSearchTag('Security')" class="px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-colors">#Security</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SPOTLIGHT / APP OF THE DAY HERO CARD -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+        <div class="relative rounded-3xl overflow-hidden glass-panel border border-brand-500/30 p-6 sm:p-8 lg:p-10 shadow-2xl shadow-indigo-950/40">
+            <!-- Top badge -->
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <div class="flex items-center gap-2">
+                    <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold border border-amber-500/30 flex items-center gap-1.5">
+                        <i class="fa-solid fa-crown text-amber-400"></i> App of the Day
+                    </span>
+                    <span class="px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 text-xs font-semibold border border-brand-500/30">
+                        {{ spotlight_app.category }}
+                    </span>
+                    <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold">
+                        {{ spotlight_app.pricing }}
+                    </span>
+                </div>
+                <div class="text-xs text-slate-400 flex items-center gap-1">
+                    <i class="fa-solid fa-star text-amber-400"></i>
+                    <span class="font-bold text-slate-200">{{ spotlight_app.rating }}</span>
+                    <span>({{ spotlight_app.reviews_count }} reviews)</span>
+                </div>
+            </div>
+
+            <!-- Spotlight Content Grid -->
+            <div class="grid lg:grid-cols-12 gap-8 items-center">
+                <!-- Left Details -->
+                <div class="lg:col-span-7 space-y-5">
+                    <div class="flex items-start gap-4">
+                        <img src="{{ spotlight_app.logo }}" alt="{{ spotlight_app.name }}" class="w-20 h-20 rounded-2xl object-cover border-2 border-slate-700/80 shadow-lg flex-shrink-0">
+                        <div>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">{{ spotlight_app.name }}</h2>
+                            <p class="text-brand-400 font-medium text-sm mt-0.5">{{ spotlight_app.tagline }}</p>
+                        </div>
+                    </div>
+
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        {{ spotlight_app.description }}
+                    </p>
+
+                    <!-- Key bullet highlights -->
+                    <div class="space-y-2 py-1">
+                        {% for feat in spotlight_app.features %}
+                        <div class="flex items-center gap-2.5 text-xs text-slate-300">
+                            <div class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px]">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <span>{{ feat }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex flex-wrap items-center gap-4 pt-2">
+                        <button onclick="upvoteSpotlight(this)" data-votes="{{ spotlight_app.upvotes }}" class="px-5 py-3 rounded-xl gradient-bg hover:opacity-95 text-white font-bold text-sm flex items-center gap-2.5 shadow-lg shadow-brand-500/30 transition-all">
+                            <i class="fa-solid fa-caret-up text-base"></i>
+                            <span>UPVOTE</span>
+                            <span class="bg-white/20 px-2 py-0.5 rounded-md text-xs" id="spotlightVoteCount">{{ spotlight_app.upvotes }}</span>
+                        </button>
+
+                        <a href="{{ spotlight_app.url }}" target="_blank" rel="noopener" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm border border-slate-700 flex items-center gap-2 transition-colors">
+                            <span>Visit Website</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400"></i>
+                        </a>
+
+                        <!-- Founder avatar snippet -->
+                        <div class="flex items-center gap-2.5 ml-auto sm:ml-0 pt-2 sm:pt-0">
+                            <img src="{{ spotlight_app.maker_avatar }}" alt="{{ spotlight_app.maker_name }}" class="w-8 h-8 rounded-full border border-slate-600 object-cover">
+                            <div class="text-xs">
+                                <span class="text-slate-400 block text-[10px]">CREATED BY</span>
+                                <span class="text-slate-200 font-semibold">{{ spotlight_app.maker_name }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Screenshot Banner -->
+                <div class="lg:col-span-5 relative group">
+                    <div class="relative rounded-2xl overflow-hidden border border-slate-700/80 shadow-2xl">
+                        <img src="{{ spotlight_app.screenshot }}" alt="App Screenshot" class="w-full h-64 sm:h-72 lg:h-80 object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-slate-300">
+                            <span class="bg-slate-900/80 backdrop-blur-md px-3 py-1 rounded-lg border border-slate-700">Live Preview Interactive</span>
+                            <span class="text-emerald-400 font-medium"><i class="fa-solid fa-circle text-[8px] mr-1"></i> Online &amp; Verified</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPLORE APPS SECTION WITH FILTERS -->
+    <section id="explore-apps" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 scroll-mt-24">
+        
+        <!-- Category Tabs Bar -->
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-8 flex-wrap gap-4">
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none max-w-full">
+                {% for cat in categories %}
+                <button 
+                    onclick="selectCategory('{{ cat.id }}')" 
+                    id="cat-tab-{{ cat.id }}" 
+                    class="cat-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 whitespace-nowrap transition-all border border-transparent {{ loop.first ? 'bg-brand-600 text-white shadow-lg shadow-brand-600/30' : 'bg-slate-800/60 hover:bg-slate-800 text-slate-300 border-slate-800' }}"
+                >
+                    <i class="fa-solid {{ cat.icon }} text-xs"></i>
+                    <span>{{ cat.name }}</span>
+                    <span class="px-1.5 py-0.5 rounded-full text-[10px] {{ loop.first ? 'bg-white/20 text-white' : 'bg-slate-700 text-slate-400' }}">{{ cat.count }}</span>
+                </button>
+                {% endfor %}
+            </div>
+
+            <!-- Sorting selector -->
+            <div class="flex items-center gap-2 ml-auto">
+                <span class="text-xs text-slate-400 font-medium hidden sm:inline">Sort by:</span>
+                <select id="sortSelect" onchange="sortApps()" class="bg-slate-800 text-slate-200 text-xs font-semibold px-3 py-2 rounded-xl border border-slate-700 focus:outline-none cursor-pointer">
+                    <option value="upvotes">Highest Upvoted</option>
+                    <option value="rating">Highest Rated</option>
+                    <option value="name">Alphabetical</option>
+                    <option value="id">Recently Added</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- APP CARDS GRID -->
+        <div id="appsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for app in apps %}
+            <div 
+                class="app-card glass-panel rounded-2xl p-6 border border-slate-800/80 hover:border-slate-700 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-950/30 flex flex-col justify-between"
+                data-id="{{ app.id }}"
+                data-name="{{ app.name|e('html_attr') }}"
+                data-category="{{ app.category_key }}"
+                data-pricing="{{ app.pricing }}"
+                data-upvotes="{{ app.upvotes }}"
+                data-rating="{{ app.rating }}"
+            >
+                <div>
+                    <!-- Top card header: Logo, Title, Badge -->
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div class="flex items-center gap-3">
+                            <img src="{{ app.logo }}" alt="{{ app.name }}" class="w-14 h-14 rounded-xl object-cover border border-slate-700/80 shadow-md">
+                            <div>
+                                <h3 class="text-base font-bold text-white leading-snug hover:text-brand-400 transition-colors cursor-pointer" onclick="openAppModal({{ app.id }})">
+                                    {{ app.name }}
+                                </h3>
+                                <span class="text-xs text-slate-400 block mt-0.5">{{ app.category_name }}</span>
+                            </div>
+                        </div>
+
+                        {% if app.badge %}
+                        <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[10px] font-bold whitespace-nowrap">
+                            {{ app.badge }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Tagline & Description -->
+                    <p class="text-xs font-semibold text-brand-400 mb-2 line-clamp-1">{{ app.tagline }}</p>
+                    <p class="text-slate-300 text-xs leading-relaxed mb-4 line-clamp-2">
+                        {{ app.description }}
+                    </p>
+
+                    <!-- Meta Pill Row -->
+                    <div class="flex items-center justify-between text-[11px] text-slate-400 mb-4 pt-2 border-t border-slate-800/60">
+                        <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-medium">
+                            {{ app.pricing }}
+                        </span>
+                        <div class="flex items-center gap-1 text-amber-400 font-bold">
+                            <i class="fa-solid fa-star text-[10px]"></i>
+                            <span>{{ app.rating }}</span>
+                            <span class="text-slate-500 font-normal">({{ app.reviews_count }})</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Card Action Row -->
+                <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-800/40">
+                    <button 
+                        onclick="toggleBookmark({{ app.id }}, this)" 
+                        class="w-9 h-9 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-amber-400 flex items-center justify-center border border-slate-700/60 transition-colors" 
+                        title="Bookmark App"
+                    >
+                        <i class="fa-regular fa-bookmark text-xs"></i>
+                    </button>
+
+                    <button 
+                        onclick="openAppModal({{ app.id }})" 
+                        class="flex-1 py-2 px-3 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700/60 transition-colors text-center"
+                    >
+                        Details
+                    </button>
+
+                    <button 
+                        onclick="upvoteApp({{ app.id }}, this)" 
+                        class="upvote-btn px-3 py-2 rounded-lg bg-slate-800 hover:bg-brand-600 text-slate-200 hover:text-white text-xs font-bold flex items-center gap-1.5 border border-slate-700 hover:border-brand-500 transition-all"
+                    >
+                        <i class="fa-solid fa-caret-up text-sm"></i>
+                        <span class="vote-count">{{ app.upvotes }}</span>
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Empty state fallback -->
+        <div id="noResultsState" class="hidden text-center py-16 glass-panel rounded-2xl my-8">
+            <i class="fa-solid fa-magnifying-glass text-4xl text-slate-600 mb-4"></i>
+            <h3 class="text-lg font-bold text-white">No applications found</h3>
+            <p class="text-slate-400 text-sm mt-1 max-w-md mx-auto">We couldn't find any tools matching your search criteria. Try adjusting filters or search term.</p>
+            <button onclick="clearSearch()" class="mt-4 px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-bold">Clear All Filters</button>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="mt-12 text-center">
+            <button id="loadMoreBtn" onclick="simulatedLoadMore()" class="px-6 py-3 rounded-xl glass-panel hover:bg-slate-800 text-slate-300 font-semibold text-sm border border-slate-700 transition-all">
+                <span>Show More Applications</span>
+                <i class="fa-solid fa-chevron-down text-xs ml-2"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- FEATURED CURATED COLLECTIONS -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Curated Collections</h2>
+                <p class="text-slate-400 text-sm mt-1">Handpicked toolkits for specialized workflows and industries</p>
+            </div>
+            <a href="#explore-apps" class="text-brand-400 hover:text-brand-300 text-xs sm:text-sm font-semibold flex items-center gap-1">
+                <span>View All Stack Lists</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for col in collections %}
+            <div class="group glass-panel rounded-2xl overflow-hidden border border-slate-800 hover:border-slate-700 transition-all duration-300 cursor-pointer" onclick="setSearchTag('{{ col.title|split(' ')|first }}')">
+                <div class="relative h-44 overflow-hidden">
+                    <img src="{{ col.image }}" alt="{{ col.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+                    <span class="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md text-slate-200 text-[10px] font-bold px-2.5 py-1 rounded-full border border-slate-700">
+                        {{ col.count }}
+                    </span>
+                </div>
+                <div class="p-5">
+                    <h3 class="text-base font-bold text-white group-hover:text-brand-400 transition-colors line-clamp-1">
+                        {{ col.title }}
+                    </h3>
+                    <p class="text-slate-400 text-xs mt-2 line-clamp-2 leading-relaxed">
+                        {{ col.desc }}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- COMMUNITY TESTIMONIALS & STATS ROW -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div class="glass-panel rounded-3xl p-8 sm:p-12 border border-slate-800 relative overflow-hidden">
+            <!-- Background Glow -->
+            <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-brand-600/10 blur-[90px] rounded-full pointer-events-none"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <!-- Left stats -->
+                <div class="lg:col-span-4 space-y-6">
+                    <span class="text-brand-400 text-xs font-bold tracking-widest uppercase">Trusted Platform</span>
+                    <h2 class="text-3xl font-extrabold text-white tracking-tight">Powering Discovery for Global Builders</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Thousands of developers, founders, and product teams use AppVault daily to publish products and find missing SaaS components.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-4 pt-2">
+                        <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+                            <div class="text-2xl font-black text-white gradient-text">{{ faker.numberBetween(15, 30) }}K+</div>
+                            <div class="text-[11px] text-slate-400 font-medium mt-0.5">Software Tools</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+                            <div class="text-2xl font-black text-white gradient-text">{{ faker.numberBetween(120, 450) }}K+</div>
+                            <div class="text-[11px] text-slate-400 font-medium mt-0.5">Monthly Visitors</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Testimonials Cards -->
+                <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {% for item in testimonials %}
+                    <div class="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 flex flex-col justify-between">
+                        <p class="text-slate-300 text-xs italic leading-relaxed mb-4">
+                            "{{ item.quote }}"
+                        </p>
+                        <div class="flex items-center gap-3 pt-3 border-t border-slate-800">
+                            <img src="{{ item.avatar }}" alt="{{ item.name }}" class="w-9 h-9 rounded-full object-cover border border-slate-700">
+                            <div>
+                                <h4 class="text-xs font-bold text-white leading-tight">{{ item.name }}</h4>
+                                <span class="text-[10px] text-slate-400 block">{{ item.title }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER CTA -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div class="relative rounded-3xl gradient-bg p-8 sm:p-12 text-center overflow-hidden shadow-2xl shadow-brand-500/20">
+            <div class="relative z-10 max-w-2xl mx-auto space-y-4">
+                <div class="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white text-xl mx-auto">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-white">Get Weekly Top 10 Apps in Your Inbox</h2>
+                <p class="text-indigo-100 text-sm">Join over 45,000 founders and developers receiving our curated digest every Monday morning.</p>
+
+                <form onsubmit="subscribeNewsletter(event)" class="mt-6 flex flex-col sm:flex-row items-center gap-3 max-w-md mx-auto">
+                    <input 
+                        type="email" 
+                        required
+                        placeholder="Enter your work email address..." 
+                        class="w-full px-4 py-3.5 rounded-xl bg-white/10 backdrop-blur-md text-white placeholder-indigo-200 text-sm border border-white/20 focus:outline-none focus:bg-white/20 transition-all"
+                    >
+                    <button type="submit" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white text-brand-700 hover:bg-slate-100 font-bold text-sm shadow-md transition-all whitespace-nowrap">
+                        Subscribe
+                    </button>
+                </form>
+                <div id="newsletterSuccess" class="hidden text-xs font-bold text-emerald-200 bg-emerald-950/60 p-2 rounded-lg border border-emerald-400/30">
+                    🎉 Thanks! You are now subscribed to the AppVault weekly digest.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-800 bg-slate-950/80 pt-16 pb-12 text-slate-400 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
+            
+            <div class="md:col-span-2 space-y-4">
+                <a href="#" class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg gradient-bg flex items-center justify-center text-white text-base font-bold">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <span class="text-lg font-extrabold text-white">App<span class="gradient-text">Vault</span></span>
+                </a>
+                <p class="text-slate-400 text-xs leading-relaxed max-w-sm">
+                    The modern software registry for discovering AI tools, SaaS platforms, developer APIs, and productivity applications built for the future.
+                </p>
+                <div class="flex items-center gap-3 text-slate-400 text-sm pt-2">
+                    <a href="#" class="w-8 h-8 rounded-lg bg-slate-900 hover:bg-slate-800 flex items-center justify-center hover:text-white transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-lg bg-slate-900 hover:bg-slate-800 flex items-center justify-center hover:text-white transition-colors"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-lg bg-slate-900 hover:bg-slate-800 flex items-center justify-center hover:text-white transition-colors"><i class="fa-brands fa-discord"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-3">Categories</h4>
+                <ul class="space-y-2">
+                    <li><a href="#explore-apps" onclick="selectCategory('ai')" class="hover:text-white transition-colors">AI &amp; Machine Learning</a></li>
+                    <li><a href="#explore-apps" onclick="selectCategory('productivity')" class="hover:text-white transition-colors">Productivity Apps</a></li>
+                    <li><a href="#explore-apps" onclick="selectCategory('developer')" class="hover:text-white transition-colors">Developer Utilities</a></li>
+                    <li><a href="#explore-apps" onclick="selectCategory('design')" class="hover:text-white transition-colors">Design &amp; UI Kits</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-3">Community</h4>
+                <ul class="space-y-2">
+                    <li><a href="javascript:void(0)" onclick="openSubmitModal()" class="hover:text-white transition-colors">Submit Your App</a></li>
+                    <li><a href="#explore-apps" class="hover:text-white transition-colors">Trending Upvotes</a></li>
+                    <li><a href="javascript:void(0)" onclick="openSavedAppsModal()" class="hover:text-white transition-colors">Saved Bookmarks</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">API Access</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-3">Legal &amp; Info</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Brand Guidelines</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Contact Support</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-900 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
+            <p>&copy; 2026 AppVault Inc. All rights reserved. Powered by Craft CMS, Twig, LoremPicsum &amp; Faker extensions.</p>
+            <p>Designed with precision for modern software exploration.</p>
+        </div>
+    </footer>
+
+
+    <!-- ==================== APP DETAIL MODAL ==================== -->
+    <div id="appModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden transition-opacity duration-300">
+        <div class="glass-panel w-full max-w-3xl rounded-3xl border border-slate-700 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+            
+            <!-- Modal Header -->
+            <div class="p-6 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
+                <div class="flex items-center gap-3">
+                    <img id="modalAppLogo" src="" alt="" class="w-12 h-12 rounded-xl object-cover border border-slate-700">
+                    <div>
+                        <h3 id="modalAppName" class="text-lg font-bold text-white"></h3>
+                        <span id="modalAppCategory" class="text-xs text-brand-400 font-medium"></span>
+                    </div>
+                </div>
+                <button onclick="closeAppModal()" class="w-9 h-9 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Content (Scrollable) -->
+            <div class="p-6 space-y-6 overflow-y-auto flex-1 text-xs text-slate-300">
+                <!-- Banner Image -->
+                <div class="relative rounded-2xl overflow-hidden border border-slate-800">
+                    <img id="modalAppScreenshot" src="" alt="Screenshot" class="w-full h-64 object-cover">
+                    <span id="modalAppPricing" class="absolute top-3 right-3 bg-slate-900/90 text-emerald-400 font-bold px-3 py-1 rounded-lg border border-slate-700"></span>
+                </div>
+
+                <!-- Tagline & Description -->
+                <div>
+                    <h4 id="modalAppTagline" class="text-sm font-bold text-white mb-2"></h4>
+                    <p id="modalAppDescription" class="leading-relaxed text-slate-300 text-xs"></p>
+                </div>
+
+                <!-- Features list -->
+                <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                    <h5 class="font-bold text-white mb-3 text-xs uppercase tracking-wider">Key Capabilities &amp; Features</h5>
+                    <ul id="modalAppFeatures" class="space-y-2 text-xs"></ul>
+                </div>
+
+                <!-- Maker profile card -->
+                <div class="flex items-center justify-between p-4 rounded-xl bg-slate-900/40 border border-slate-800">
+                    <div class="flex items-center gap-3">
+                        <img id="modalMakerAvatar" src="" alt="" class="w-10 h-10 rounded-full object-cover border border-slate-700">
+                        <div>
+                            <div class="text-[10px] text-slate-400 font-bold">CREATED BY</div>
+                            <div id="modalMakerName" class="font-bold text-white"></div>
+                            <div id="modalMakerTitle" class="text-[10px] text-slate-400"></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1 text-amber-400 font-bold text-xs">
+                        <i class="fa-solid fa-star"></i>
+                        <span id="modalAppRating"></span>
+                    </div>
+                </div>
+
+                <!-- User Comments Simulation Section -->
+                <div class="border-t border-slate-800 pt-4">
+                    <h5 class="font-bold text-white mb-3 text-xs">Community Discussions &amp; Feedback</h5>
+                    <div class="space-y-3" id="modalCommentsList">
+                        <div class="p-3 rounded-lg bg-slate-900/50 border border-slate-800/80">
+                            <div class="flex items-center justify-between text-[10px] text-slate-400 mb-1">
+                                <span class="font-semibold text-slate-200">Alex Rivers</span>
+                                <span>2 hours ago</span>
+                            </div>
+                            <p class="text-[11px] text-slate-300">Incredible app! Saved our team over 10 hours a week in automated deployment workflows.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Add Comment input -->
+                    <div class="mt-3 flex gap-2">
+                        <input type="text" id="newCommentInput" placeholder="Add a comment or review..." class="flex-1 bg-slate-900 text-xs text-white p-2.5 rounded-xl border border-slate-700 focus:outline-none">
+                        <button onclick="addSimulatedComment()" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold">Post</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 border-t border-slate-800 bg-slate-900/80 flex items-center justify-between gap-4">
+                <button id="modalUpvoteBtn" onclick="" class="px-4 py-2.5 rounded-xl gradient-bg text-white font-bold text-xs flex items-center gap-2">
+                    <i class="fa-solid fa-caret-up"></i>
+                    <span>UPVOTE</span>
+                    <span id="modalVoteCount" class="bg-white/20 px-2 py-0.5 rounded text-[10px]"></span>
+                </button>
+
+                <a id="modalVisitLink" href="#" target="_blank" rel="noopener" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center gap-2">
+                    <span>Open Official Site</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==================== SUBMIT APP MODAL ==================== -->
+    <div id="submitModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden">
+        <div class="glass-panel w-full max-w-xl rounded-3xl border border-slate-700 shadow-2xl overflow-hidden p-6 sm:p-8 space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h3 class="text-xl font-extrabold text-white">Submit Your Software App</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">List your product in front of thousands of early adopters.</p>
+                </div>
+                <button onclick="closeSubmitModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <form onsubmit="handleAppSubmission(event)" class="space-y-4 text-xs">
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">App / Product Name *</label>
+                    <input type="text" required placeholder="e.g. CodePulse AI" class="w-full bg-slate-900 text-white p-3 rounded-xl border border-slate-700 focus:border-brand-500 focus:outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-300 font-semibold mb-1">Category *</label>
+                        <select required class="w-full bg-slate-900 text-white p-3 rounded-xl border border-slate-700 focus:outline-none">
+                            <option value="ai">AI &amp; Machine Learning</option>
+                            <option value="productivity">Productivity</option>
+                            <option value="developer">Developer Tools</option>
+                            <option value="design">Design &amp; Creative</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 font-semibold mb-1">Pricing Model *</label>
+                        <select required class="w-full bg-slate-900 text-white p-3 rounded-xl border border-slate-700 focus:outline-none">
+                            <option value="Free">Free</option>
+                            <option value="Freemium">Freemium</option>
+                            <option value="Paid">Paid</option>
+                            <option value="Open Source">Open Source</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Website URL *</label>
+                    <input type="url" required placeholder="https://myapp.com" class="w-full bg-slate-900 text-white p-3 rounded-xl border border-slate-700 focus:border-brand-500 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Short Tagline *</label>
+                    <input type="text" required placeholder="One sentence pitch..." class="w-full bg-slate-900 text-white p-3 rounded-xl border border-slate-700 focus:border-brand-500 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Detailed Description</label>
+                    <textarea rows="3" placeholder="Describe key benefits and capabilities..." class="w-full bg-slate-900 text-white p-3 rounded-xl border border-slate-700 focus:border-brand-500 focus:outline-none"></textarea>
+                </div>
+
+                <div class="pt-2 flex justify-end gap-3">
+                    <button type="button" onclick="closeSubmitModal()" class="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-semibold">Cancel</button>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl gradient-bg text-white font-bold shadow-lg shadow-brand-500/20">Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== SAVED APPS MODAL ==================== -->
+    <div id="savedModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden">
+        <div class="glass-panel w-full max-w-md rounded-3xl border border-slate-700 shadow-2xl p-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-bookmark text-amber-400"></i> Saved Applications
+                </h3>
+                <button onclick="closeSavedModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <div id="savedListContainer" class="space-y-3 max-h-80 overflow-y-auto text-xs">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs font-bold px-4 py-3 rounded-xl border border-brand-500 shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+        <span id="toastMsg">Action completed</span>
+    </div>
+
+    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+    <script>
+        // Store pre-rendered Twig apps dataset into JS array for modal and client interactivity
+        const APPS_DATA = {{ apps|json_encode|raw }};
+        let currentCategory = 'all';
+        let currentPricing = 'all';
+        let searchQuery = '';
+        let savedAppIds = JSON.parse(localStorage.getItem('appvault_saved') || '[]');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSavedBadge();
+        });
+
+        // Sync header and hero search inputs
+        function syncAndFilter(val) {
+            searchQuery = val.toLowerCase().trim();
+            document.getElementById('headerSearchInput').value = val;
+            document.getElementById('heroSearchInput').value = val;
+            filterApps();
+        }
+
+        function setSearchTag(tag) {
+            syncAndFilter(tag);
+            document.getElementById('explore-apps').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function clearSearch() {
+            syncAndFilter('');
+            document.getElementById('pricingFilter').value = 'all';
+            currentPricing = 'all';
+            selectCategory('all');
+        }
+
+        // Category selection
+        function selectCategory(catId) {
+            currentCategory = catId;
+            document.querySelectorAll('.cat-tab').forEach(tab => {
+                tab.classList.remove('bg-brand-600', 'text-white', 'shadow-lg', 'shadow-brand-600/30');
+                tab.classList.add('bg-slate-800/60', 'text-slate-300', 'border-slate-800');
+            });
+
+            const activeTab = document.getElementById(`cat-tab-${catId}`);
+            if (activeTab) {
+                activeTab.classList.remove('bg-slate-800/60', 'text-slate-300', 'border-slate-800');
+                activeTab.classList.add('bg-brand-600', 'text-white', 'shadow-lg', 'shadow-brand-600/30');
+            }
+
+            filterApps();
+        }
+
+        // Filter Grid Logic
+        function filterApps() {
+            currentPricing = document.getElementById('pricingFilter').value;
+            const cards = document.querySelectorAll('.app-card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                const cat = card.getAttribute('data-category');
+                const pricing = card.getAttribute('data-pricing');
+                
+                const matchesCategory = (currentCategory === 'all' || cat === currentCategory);
+                const matchesPricing = (currentPricing === 'all' || pricing === currentPricing);
+                const matchesSearch = (name.includes(searchQuery) || cat.includes(searchQuery) || pricing.toLowerCase().includes(searchQuery));
+
+                if (matchesCategory && matchesPricing && matchesSearch) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            const emptyState = document.getElementById('noResultsState');
+            if (visibleCount === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+            }
+        }
+
+        // Sort Grid Logic
+        function sortApps() {
+            const sortBy = document.getElementById('sortSelect').value;
+            const grid = document.getElementById('appsGrid');
+            const cards = Array.from(grid.querySelectorAll('.app-card'));
+
+            cards.sort((a, b) => {
+                if (sortBy === 'upvotes') {
+                    return parseInt(b.getAttribute('data-upvotes')) - parseInt(a.getAttribute('data-upvotes'));
+                } else if (sortBy === 'rating') {
+                    return parseFloat(b.getAttribute('data-rating')) - parseFloat(a.getAttribute('data-rating'));
+                } else if (sortBy === 'name') {
+                    return a.getAttribute('data-name').localeCompare(b.getAttribute('data-name'));
+                } else {
+                    return parseInt(b.getAttribute('data-id')) - parseInt(a.getAttribute('data-id'));
+                }
+            });
+
+            cards.forEach(card => grid.appendChild(card));
+        }
+
+        // Upvote functionality
+        function upvoteApp(id, btn) {
+            const voteSpan = btn.querySelector('.vote-count');
+            let votes = parseInt(voteSpan.innerText);
+            
+            if (btn.classList.contains('voted')) {
+                votes -= 1;
+                btn.classList.remove('voted', 'bg-brand-600', 'text-white');
+                btn.classList.add('bg-slate-800', 'text-slate-200');
+                showToast('Upvote removed');
+            } else {
+                votes += 1;
+                btn.classList.add('voted', 'bg-brand-600', 'text-white');
+                btn.classList.remove('bg-slate-800', 'text-slate-200');
+                showToast('Upvoted successfully! 🔥');
+            }
+            voteSpan.innerText = votes;
+            btn.closest('.app-card').setAttribute('data-upvotes', votes);
+        }
+
+        function upvoteSpotlight(btn) {
+            const voteSpan = document.getElementById('spotlightVoteCount');
+            let votes = parseInt(voteSpan.innerText);
+            if (btn.classList.contains('voted')) {
+                votes -= 1;
+                btn.classList.remove('voted');
+                showToast('Upvote removed');
+            } else {
+                votes += 1;
+                btn.classList.add('voted');
+                showToast('Spotlight App Upvoted! 🔥');
+            }
+            voteSpan.innerText = votes;
+        }
+
+        // Bookmark functionality
+        function toggleBookmark(id, btn) {
+            const icon = btn.querySelector('i');
+            if (savedAppIds.includes(id)) {
+                savedAppIds = savedAppIds.filter(item => item !== id);
+                icon.classList.replace('fa-solid', 'fa-regular');
+                btn.classList.remove('text-amber-400');
+                showToast('Removed from saved apps');
+            } else {
+                savedAppIds.push(id);
+                icon.classList.replace('fa-regular', 'fa-solid');
+                btn.classList.add('text-amber-400');
+                showToast('App saved to your bookmarks!');
+            }
+            localStorage.setItem('appvault_saved', JSON.stringify(savedAppIds));
+            updateSavedBadge();
+        }
+
+        function updateSavedBadge() {
+            const badge = document.getElementById('savedCountBadge');
+            if (savedAppIds.length > 0) {
+                badge.innerText = savedAppIds.length;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        // Open App Detail Modal
+        function openAppModal(id) {
+            const app = APPS_DATA.find(a => a.id === id);
+            if (!app) return;
+
+            document.getElementById('modalAppLogo').src = app.logo;
+            document.getElementById('modalAppName').innerText = app.name;
+            document.getElementById('modalAppCategory').innerText = app.category_name;
+            document.getElementById('modalAppScreenshot').src = app.screenshot;
+            document.getElementById('modalAppPricing').innerText = app.pricing;
+            document.getElementById('modalAppTagline').innerText = app.tagline;
+            document.getElementById('modalAppDescription').innerText = app.long_description || app.description;
+            document.getElementById('modalMakerAvatar').src = app.maker_avatar;
+            document.getElementById('modalMakerName').innerText = app.maker_name;
+            document.getElementById('modalMakerTitle').innerText = app.maker_title;
+            document.getElementById('modalAppRating').innerText = app.rating;
+            document.getElementById('modalVoteCount').innerText = app.upvotes;
+            document.getElementById('modalVisitLink').href = app.url;
+
+            const featuresList = document.getElementById('modalAppFeatures');
+            featuresList.innerHTML = '';
+            app.features.forEach(f => {
+                const li = document.createElement('li');
+                li.className = 'flex items-center gap-2 text-slate-300';
+                li.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> ${f}`;
+                featuresList.appendChild(li);
+            });
+
+            document.getElementById('appModal').classList.remove('hidden');
+        }
+
+        function closeAppModal() {
+            document.getElementById('appModal').classList.add('hidden');
+        }
+
+        function addSimulatedComment() {
+            const input = document.getElementById('newCommentInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const container = document.getElementById('modalCommentsList');
+            const div = document.createElement('div');
+            div.className = 'p-3 rounded-lg bg-slate-900/50 border border-slate-800/80';
+            div.innerHTML = `
+                <div class="flex items-center justify-between text-[10px] text-slate-400 mb-1">
+                    <span class="font-semibold text-brand-400">You (Visitor)</span>
+                    <span>Just now</span>
+                </div>
+                <p class="text-[11px] text-slate-300">${text}</p>
+            `;
+            container.prepend(div);
+            input.value = '';
+            showToast('Comment published!');
+        }
+
+        // Submit modal
+        function openSubmitModal() {
+            document.getElementById('submitModal').classList.remove('hidden');
+        }
+        function closeSubmitModal() {
+            document.getElementById('submitModal').classList.add('hidden');
+        }
+        function handleAppSubmission(e) {
+            e.preventDefault();
+            closeSubmitModal();
+            showToast('🎉 Application submitted for review!');
+        }
+
+        // Saved Apps Modal
+        function openSavedAppsModal() {
+            const container = document.getElementById('savedListContainer');
+            container.innerHTML = '';
+
+            if (savedAppIds.length === 0) {
+                container.innerHTML = '<p class="text-slate-400 text-center py-4">No saved apps yet. Click the bookmark icon on any card to save it.</p>';
+            } else {
+                savedAppIds.forEach(id => {
+                    const app = APPS_DATA.find(a => a.id === id);
+                    if (app) {
+                        const div = document.createElement('div');
+                        div.className = 'flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 border border-slate-800';
+                        div.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <img src="${app.logo}" class="w-8 h-8 rounded-lg object-cover">
+                                <div>
+                                    <h4 class="font-bold text-white text-xs">${app.name}</h4>
+                                    <span class="text-[10px] text-slate-400">${app.category_name}</span>
+                                </div>
+                            </div>
+                            <button onclick="openAppModal(${app.id}); closeSavedModal();" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-[10px] font-bold">View</button>
+                        `;
+                        container.appendChild(div);
+                    }
+                });
+            }
+
+            document.getElementById('savedModal').classList.remove('hidden');
+        }
+
+        function closeSavedModal() {
+            document.getElementById('savedModal').classList.add('hidden');
+        }
+
+        // Toast alert
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        function simulatedLoadMore() {
+            showToast('Loaded 12 additional apps from directory');
+        }
+
+        function subscribeNewsletter(e) {
+            e.preventDefault();
+            document.getElementById('newsletterSuccess').classList.remove('hidden');
+            showToast('Subscribed to weekly digest!');
+        }
+
+        // Theme toggle
+        let isDark = true;
+        function toggleTheme() {
+            isDark = !isDark;
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            if (!isDark) {
+                html.classList.remove('dark');
+                document.body.classList.replace('bg-darkbg', 'bg-slate-50');
+                document.body.classList.replace('text-slate-100', 'text-slate-900');
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                html.classList.add('dark');
+                document.body.classList.replace('bg-slate-50', 'bg-darkbg');
+                document.body.classList.replace('text-slate-900', 'text-slate-100');
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+    </script>
 </body>
 </html>
-
