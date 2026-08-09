@@ -1,4 +1,4 @@
-dateModified: 1786280844
+dateModified: 1786282136
 email:
   fromEmail: webmaster@giuseppegallo.com
   fromName: 'Craft Bootstrap'
@@ -6,7 +6,7 @@ email:
 meta:
   __names__:
     5be99172-71a0-4a3e-997d-97908260e7de: 'Craft Bootstrap' # Craft Bootstrap
-    3815a391-4165-445c-b076-8b40589f41b5: 'Craft Bootstrap' # Craft Bootstrap
+    3815a391-4165-445c-b076-8b40589f41b5: $PRIMARY_SITE_NAME # $PRIMARY_SITE_NAME
 plugins:
   ckeditor:
     edition: standard

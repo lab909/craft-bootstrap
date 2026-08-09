@@ -1,5 +1,5 @@
 {
-  "name": "civitas",
+  "name": "frontend",
   "version": "2.0.0",
   "description": "Node package config for the project Civitas",
   "scripts": {
@@ -7,13 +7,9 @@
     "build": "vite build"
   },
   "browserslist": "> 0.5%, last 2 versions, not dead",
-  "author": "JL Digital",
+  "author": "Jos Digital",
   "license": "ISC",
   "dependencies": {
-    "jquery": "^3.7.1",
-    "loadjs": "^4.3.0",
-    "sweetalert2": "^11.26.25",
-    "parsleyjs": "^2.9.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",

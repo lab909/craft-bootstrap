@@ -1,8 +1,9 @@
 baseUrl: $PRIMARY_SITE_URL
+enabled: true
 handle: default
 hasUrls: true
 language: en
-name: 'Craft Bootstrap'
+name: $PRIMARY_SITE_NAME
 primary: true
 siteGroup: 5be99172-71a0-4a3e-997d-97908260e7de # Craft Bootstrap
 sortOrder: 1
