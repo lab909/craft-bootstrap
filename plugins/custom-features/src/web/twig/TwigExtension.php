@@ -6,6 +6,7 @@ use Craft;
 use Faker\Factory;
 use josdigital\craftcustomfeatures\services\LoremPicsumService;
 use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 use Twig\TwigTest;
@@ -13,7 +14,7 @@ use Twig\TwigTest;
 /**
  * Twig extension
  */
-class TwigExtension extends AbstractExtension
+class TwigExtension extends AbstractExtension implements GlobalsInterface
 {
     public function getGlobals(): array
     {

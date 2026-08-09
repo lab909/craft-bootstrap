@@ -24,7 +24,7 @@ return [
 
         'limitAutoSlugsToAscii' => true,
 
-        'useEmailAsUsername' => true,
+//        'useEmailAsUsername' => true,
     ],
     'dev' => [
         'devMode' => true,
