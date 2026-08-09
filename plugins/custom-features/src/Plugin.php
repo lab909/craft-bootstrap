@@ -4,6 +4,10 @@ namespace josdigital\craftcustomfeatures;
 
 use Craft;
 use craft\base\Plugin as BasePlugin;
+use craft\web\twig\variables\CraftVariable;
+use josdigital\craftcustomfeatures\variables\Variables;
+use josdigital\craftcustomfeatures\web\twig\TwigExtension;
+use yii\base\Event;
 
 /**
  * Custom Features plugin
@@ -37,11 +41,10 @@ class Plugin extends BasePlugin
         Craft::$app->onInit(function() {
             // ...
         });
+        Craft::$app->view->registerTwigExtension(new TwigExtension());
     }
 
     private function attachEventHandlers(): void
     {
-        // Register event handlers here ...
-        // (see https://craftcms.com/docs/5.x/extend/events.html to get started)
     }
 }
